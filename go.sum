@@ -1,13 +1,9 @@
 github.com/0xVanfer/chainId v0.1.0 h1:DmBckf59v3wecp4uSvh9YB4Jct9q3Js6Pf5Uw6tFUls=
 github.com/0xVanfer/chainId v0.1.0/go.mod h1:YgJHKMKd0J+3VGCoBMjaVE5GUdwQz5Ud585Pr9vEg40=
-github.com/0xVanfer/types v0.1.0 h1:fpKs8zDjTGpuwvvSNtJZN3qH6fPQrTQzjrXB+Zm2nW8=
-github.com/0xVanfer/types v0.1.0/go.mod h1:8QSGeOQOStzyb8kAZXRVnxJLOJVMqI16lO/a+OBXFOc=
 github.com/ethereum/go-ethereum v1.10.23 h1:Xk8XAT4/UuqcjMLIMF+7imjkg32kfVFKoeyQDaO2yWM=
 github.com/ethereum/go-ethereum v1.10.23/go.mod h1:EYFyF19u3ezGLD4RqOkLq+ZCXzYbLoNDdZlMt7kyKFg=
 github.com/imroc/req v0.3.2 h1:M/JkeU6RPmX+WYvT2vaaOL0K+q8ufL5LxwvJc4xeB4o=
 github.com/imroc/req v0.3.2/go.mod h1:F+NZ+2EFSo6EFXdeIbpfE9hcC233id70kf0byW97Caw=
-github.com/shopspring/decimal v1.3.1 h1:2Usl1nmF/WZucqkFZhnfFYxxxu8LG21F6nPQBE5gKV8=
-github.com/shopspring/decimal v1.3.1/go.mod h1:DKyhrW/HYNuLGql+MJL6WCR6knT2jwCFRcu2hWCYk4o=
 golang.org/x/crypto v0.0.0-20210921155107-089bfa567519 h1:7I4JAnoQBe7ZtJcBaYHi5UtiO8tQHbUSXxL+pnGRANg=
 golang.org/x/crypto v0.0.0-20210921155107-089bfa567519/go.mod h1:GvvjBRRGRdwPK5ydBHafDWAxML/pGHZbMvKqRZ5+Abc=
 golang.org/x/sys v0.0.0-20220520151302-bc2c85ada10a h1:dGzPydgVsqGcTRVwiLJ1jVbufYwmzD3LfVPLKsKg+0k=

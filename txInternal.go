@@ -4,7 +4,6 @@ import (
 	"strconv"
 
 	"github.com/0xVanfer/blockscan/internal/constants"
-	"github.com/0xVanfer/types"
 	"github.com/imroc/req"
 )
 
@@ -41,7 +40,7 @@ func (s *Scanner) GetInternalTransactions(address any, startBlock int, endBlock 
 	if err != nil {
 		return
 	}
-	url := s.UrlHead + `module=account&action=txlistinternal&address=` + addressStr + `&startblock=` + types.ToString(startBlock) + `&endblock=` + toBlock + `&sort=asc&apikey=` + s.ApiKey
+	url := s.UrlHead + `module=account&action=txlistinternal&address=` + addressStr + `&startblock=` + strconv.FormatInt(int64(startBlock), 10) + `&endblock=` + toBlock + `&sort=asc&apikey=` + s.ApiKey
 	r, err := req.Get(url)
 	if err != nil {
 		return
