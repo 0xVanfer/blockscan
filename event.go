@@ -3,7 +3,6 @@ package blockscan
 import (
 	"strconv"
 
-	"github.com/0xVanfer/blockscan/internal/types"
 	"github.com/imroc/req"
 )
 
@@ -27,25 +26,23 @@ type BlockscanEvents struct {
 }
 
 // Get up to 1000 events of an address.
-// If "userApiKey" is "", use default api key.
-func GetEvents[T int | string](network string, topic0 string, address string, startblock int, endblock T, userApiKey string) (res BlockscanGetEventsReq, err error) {
-	urlHead, apiKey, err := GetUrlAndKey(network)
+func (s *Scanner) GetEvents(topic0 string, address string, startBlock int, endBlock any) (res BlockscanGetEventsReq, err error) {
+	toBlock, err := processToBlock(endBlock)
 	if err != nil {
 		return
 	}
-	if userApiKey != "" {
-		apiKey = userApiKey
+	url := s.UrlHead + `module=logs&action=getLogs&fromBlock=` + strconv.Itoa(startBlock) + `&toBlock=` + toBlock + `&address=` + address + `&topic0=` + topic0 + `&apikey=` + s.ApiKey
+	r, err := req.Get(url)
+	if err != nil {
+		return
 	}
-	url := urlHead + `module=logs&action=getLogs&fromBlock=` + strconv.Itoa(startblock) + `&toBlock=` + types.ToString(endblock) + `&address=` + address + `&topic0=` + topic0 + `&apikey=` + apiKey
-	r, _ := req.Get(url)
 	err = r.ToJSON(&res)
 	return
 }
 
 // Get all the events of an address.
-// If "userApiKey" is "", use default api key.
-func GetEventsAll(network string, topic0 string, address string, userApiKey string) (events []BlockscanEvents, err error) {
-	res, err := GetEvents(network, topic0, address, 0, "latest", userApiKey)
+func (s *Scanner) GetEventsAll(topic0 string, address string) (events []BlockscanEvents, err error) {
+	res, err := s.GetEvents(topic0, address, 0, "latest")
 	if err != nil {
 		return
 	}
@@ -57,12 +54,11 @@ func GetEventsAll(network string, topic0 string, address string, userApiKey stri
 			return nil, err
 		}
 		startBlock := int(lastBlock) + 1
-		res, err = GetEvents(network, topic0, address, startBlock, "latest", userApiKey)
+		res, err = s.GetEvents(topic0, address, startBlock, "latest")
 		if err != nil {
 			return nil, err
 		}
 		events = append(events, res.Result...)
-
 	}
 	return
 }

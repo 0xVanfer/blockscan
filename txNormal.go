@@ -4,7 +4,7 @@ import (
 	"strconv"
 
 	"github.com/0xVanfer/blockscan/internal/constants"
-	"github.com/0xVanfer/blockscan/internal/types"
+	"github.com/0xVanfer/types"
 	"github.com/imroc/req"
 )
 
@@ -36,25 +36,23 @@ type BlockscanNormalTxs struct {
 }
 
 // Get up to 10000 txs of an address.
-// If "userApiKey" is "", use default api key.
-func GetNormalTransactions[T int | string](network string, address string, startBlock int, endBlock T, userApiKey string) (res BlockscanGetNormalTxsReq, err error) {
-	urlHead, apiKey, err := GetUrlAndKey(network)
+func (s *Scanner) GetNormalTransactions(address string, startBlock int, endBlock any) (res BlockscanGetNormalTxsReq, err error) {
+	toBlock, err := processToBlock(endBlock)
 	if err != nil {
 		return
 	}
-	if userApiKey != "" {
-		apiKey = userApiKey
+	url := s.UrlHead + `module=account&action=txlist&address=` + address + `&startblock=` + types.ToString(startBlock) + `&endblock=` + toBlock + `&sort=asc&apikey=` + s.ApiKey
+	r, err := req.Get(url)
+	if err != nil {
+		return
 	}
-	url := urlHead + `module=account&action=txlist&address=` + address + `&startblock=` + types.ToString(startBlock) + `&endblock=` + types.ToString(endBlock) + `&sort=asc&apikey=` + apiKey
-	r, _ := req.Get(url)
 	err = r.ToJSON(&res)
 	return
 }
 
 // Get all the txs of an address.
-// If "userApiKey" is "", use default api key.
-func GetNormalTransactionsAll(network string, address string, userApiKey string) (txs []BlockscanNormalTxs, err error) {
-	res, err := GetNormalTransactions(network, address, 0, constants.UnreachableBlock, userApiKey)
+func (s *Scanner) GetNormalTransactionsAll(address string) (txs []BlockscanNormalTxs, err error) {
+	res, err := s.GetNormalTransactions(address, 0, constants.UnreachableBlock)
 	if err != nil {
 		return
 	}
@@ -66,7 +64,7 @@ func GetNormalTransactionsAll(network string, address string, userApiKey string)
 			return nil, err
 		}
 		startBlock := lastEndBlockInt + 1
-		res, err = GetNormalTransactions(network, address, startBlock, constants.UnreachableBlock, userApiKey)
+		res, err = s.GetNormalTransactions(address, startBlock, constants.UnreachableBlock)
 		if err != nil {
 			return nil, err
 		}

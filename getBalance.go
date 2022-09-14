@@ -15,17 +15,12 @@ type BlockscanGetBalanceReq struct {
 }
 
 // Get balance of a single address.
-// If "userApiKey" is "", use default api key.
-func GetBalance(network string, address string, userApiKey string) (balance int, err error) {
-	urlHead, apiKey, err := GetUrlAndKey(network)
+func (s *Scanner) GetBalance(address string) (balance int, err error) {
+	url := s.UrlHead + `module=account&action=balance&address=` + address + `&tag=latest&apikey=` + s.ApiKey
+	r, err := req.Get(url)
 	if err != nil {
 		return
 	}
-	if userApiKey != "" {
-		apiKey = userApiKey
-	}
-	url := urlHead + `module=account&action=balance&address=` + address + `&tag=latest&apikey=` + apiKey
-	r, _ := req.Get(url)
 	var res BlockscanGetBalanceReq
 	err = r.ToJSON(&res)
 	if err != nil {
@@ -45,18 +40,13 @@ type BlockscanGetBalancesReq struct {
 }
 
 // Get balances of up to 20 addresses in one call.
-// If "userApiKey" is "", use default api key.
-func GetBalances(network string, addresses []string, userApiKey string) (res BlockscanGetBalancesReq, err error) {
-	urlHead, apiKey, err := GetUrlAndKey(network)
+func (s *Scanner) GetBalances(addresses []string) (res BlockscanGetBalancesReq, err error) {
+	addressesString := array.ConnectArray(addresses, ",")
+	url := s.UrlHead + `module=account&action=balancemulti&address=` + addressesString + `&tag=latest&apikey=` + s.ApiKey
+	r, err := req.Get(url)
 	if err != nil {
 		return
 	}
-	if userApiKey != "" {
-		apiKey = userApiKey
-	}
-	addressesString := array.ConnectArray(addresses, ",")
-	url := urlHead + `module=account&action=balancemulti&address=` + addressesString + `&tag=latest&apikey=` + apiKey
-	r, _ := req.Get(url)
 	err = r.ToJSON(&res)
 	return
 }

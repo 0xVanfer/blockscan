@@ -4,7 +4,7 @@ import (
 	"strconv"
 
 	"github.com/0xVanfer/blockscan/internal/constants"
-	"github.com/0xVanfer/blockscan/internal/types"
+	"github.com/0xVanfer/types"
 	"github.com/imroc/req"
 )
 
@@ -32,25 +32,23 @@ type BlockscanInternalTxs struct {
 }
 
 // Get up to 10000 internal txs of an address.
-// If "userApiKey" is "", use default api key.
-func GetInternalTransactions[T int | string](network string, address string, startBlock int, endBlock T, userApiKey string) (res BlockscanGetInternalTxsReq, err error) {
-	urlHead, apiKey, err := GetUrlAndKey(network)
+func (s *Scanner) GetInternalTransactions(address string, startBlock int, endBlock any) (res BlockscanGetInternalTxsReq, err error) {
+	toBlock, err := processToBlock(endBlock)
 	if err != nil {
 		return
 	}
-	if userApiKey != "" {
-		apiKey = userApiKey
+	url := s.UrlHead + `module=account&action=txlistinternal&address=` + address + `&startblock=` + types.ToString(startBlock) + `&endblock=` + toBlock + `&sort=asc&apikey=` + s.ApiKey
+	r, err := req.Get(url)
+	if err != nil {
+		return
 	}
-	url := urlHead + `module=account&action=txlistinternal&address=` + address + `&startblock=` + types.ToString(startBlock) + `&endblock=` + types.ToString(endBlock) + `&sort=asc&apikey=` + apiKey
-	r, _ := req.Get(url)
 	err = r.ToJSON(&res)
 	return
 }
 
 // Get all the internal txs of an address.
-// If "userApiKey" is "", use default api key.
-func GetInternalTransactionsAll(network string, address string, userApiKey string) (txs []BlockscanInternalTxs, err error) {
-	res, err := GetInternalTransactions(network, address, 0, constants.UnreachableBlock, userApiKey)
+func (s *Scanner) GetInternalTransactionsAll(address string) (txs []BlockscanInternalTxs, err error) {
+	res, err := s.GetInternalTransactions(address, 0, constants.UnreachableBlock)
 	if err != nil {
 		return
 	}
@@ -62,7 +60,7 @@ func GetInternalTransactionsAll(network string, address string, userApiKey strin
 			return nil, err
 		}
 		startBlock := lastEndBlockInt + 1
-		res, err = GetInternalTransactions(network, address, startBlock, constants.UnreachableBlock, userApiKey)
+		res, err = s.GetInternalTransactions(address, startBlock, constants.UnreachableBlock)
 		if err != nil {
 			return nil, err
 		}

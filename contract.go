@@ -30,16 +30,8 @@ type AbiStruct []struct {
 }
 
 // Get the contract's abi(if it is a verified contract)
-// If "userApiKey" is "", use default api key
-func GetContractAbi(network string, address string, userApiKey string) (abi AbiStruct, err error) {
-	urlHead, apiKey, err := GetUrlAndKey(network)
-	if err != nil {
-		return
-	}
-	if userApiKey != "" {
-		apiKey = userApiKey
-	}
-	url := urlHead + `module=contract&action=getabi&address=` + address + `&apikey=` + apiKey
+func (s *Scanner) GetContractAbi(address string) (abi AbiStruct, err error) {
+	url := s.UrlHead + `module=contract&action=getabi&address=` + address + `&apikey=` + s.ApiKey
 	r, err := req.Get(url)
 	if err != nil {
 		return
@@ -79,25 +71,19 @@ type BlockscanSourceCodeReq struct {
 }
 
 // Get the source code of a contract.
-// If "userApiKey" is "", use default api key.
-func GetSourceCode(network string, address string, userApiKey string) (res BlockscanSourceCodeReq, err error) {
-	urlHead, apiKey, err := GetUrlAndKey(network)
+func (s *Scanner) GetSourceCode(address string) (res BlockscanSourceCodeReq, err error) {
+	url := s.UrlHead + `module=contract&action=getsourcecode&address=` + address + `&apikey=` + s.ApiKey
+	r, err := req.Get(url)
 	if err != nil {
 		return
 	}
-	if userApiKey != "" {
-		apiKey = userApiKey
-	}
-	url := urlHead + `module=contract&action=getsourcecode&address=` + address + `&apikey=` + apiKey
-	r, _ := req.Get(url)
 	err = r.ToJSON(&res)
 	return
 }
 
 // Get the contract's name by its source code.
-// If "userApiKey" is "", use default api key.
-func GetContractName(network string, address string, userApiKey string) (name string, err error) {
-	sourceCode, err := GetSourceCode(network, address, userApiKey)
+func (s *Scanner) GetContractName(address string) (name string, err error) {
+	sourceCode, err := s.GetSourceCode(address)
 	if err != nil {
 		return
 	}
@@ -106,9 +92,8 @@ func GetContractName(network string, address string, userApiKey string) (name st
 }
 
 // Some contracts may not be verified, will be considered not contract.
-// If "userApiKey" is "", use default api key.
-func IsVerifiedContract(network string, address string, userApiKey string) (isContract bool, err error) {
-	sourceCode, err := GetSourceCode(network, address, userApiKey)
+func (s *Scanner) IsVerifiedContract(address string) (isContract bool, err error) {
+	sourceCode, err := s.GetSourceCode(address)
 	if err != nil {
 		return
 	}
