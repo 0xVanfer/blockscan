@@ -30,8 +30,12 @@ type AbiStruct []struct {
 }
 
 // Get the contract's abi(if it is a verified contract)
-func (s *Scanner) GetContractAbi(address string) (abi AbiStruct, err error) {
-	url := s.UrlHead + `module=contract&action=getabi&address=` + address + `&apikey=` + s.ApiKey
+func (s *Scanner) GetContractAbi(address any) (abi AbiStruct, err error) {
+	addressStr, err := checkAddress(address)
+	if err != nil {
+		return
+	}
+	url := s.UrlHead + `module=contract&action=getabi&address=` + addressStr + `&apikey=` + s.ApiKey
 	r, err := req.Get(url)
 	if err != nil {
 		return
@@ -71,8 +75,12 @@ type BlockscanSourceCodeReq struct {
 }
 
 // Get the source code of a contract.
-func (s *Scanner) GetSourceCode(address string) (res BlockscanSourceCodeReq, err error) {
-	url := s.UrlHead + `module=contract&action=getsourcecode&address=` + address + `&apikey=` + s.ApiKey
+func (s *Scanner) GetSourceCode(address any) (res BlockscanSourceCodeReq, err error) {
+	addressStr, err := checkAddress(address)
+	if err != nil {
+		return
+	}
+	url := s.UrlHead + `module=contract&action=getsourcecode&address=` + addressStr + `&apikey=` + s.ApiKey
 	r, err := req.Get(url)
 	if err != nil {
 		return
@@ -82,7 +90,7 @@ func (s *Scanner) GetSourceCode(address string) (res BlockscanSourceCodeReq, err
 }
 
 // Get the contract's name by its source code.
-func (s *Scanner) GetContractName(address string) (name string, err error) {
+func (s *Scanner) GetContractName(address any) (name string, err error) {
 	sourceCode, err := s.GetSourceCode(address)
 	if err != nil {
 		return
@@ -92,7 +100,7 @@ func (s *Scanner) GetContractName(address string) (name string, err error) {
 }
 
 // Some contracts may not be verified, will be considered not contract.
-func (s *Scanner) IsVerifiedContract(address string) (isContract bool, err error) {
+func (s *Scanner) IsVerifiedContract(address any) (isContract bool, err error) {
 	sourceCode, err := s.GetSourceCode(address)
 	if err != nil {
 		return

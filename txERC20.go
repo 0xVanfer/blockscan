@@ -38,12 +38,16 @@ type BlockscanErc20Txs struct {
 }
 
 // Get up to 10000 erc20 txs of an address.
-func (s *Scanner) GetErc20Transactions(address string, startBlock int, endBlock any) (res BlockscanGetErc20TxsReq, err error) {
+func (s *Scanner) GetErc20Transactions(address any, startBlock int, endBlock any) (res BlockscanGetErc20TxsReq, err error) {
+	addressStr, err := checkAddress(address)
+	if err != nil {
+		return
+	}
 	toBlock, err := processToBlock(endBlock)
 	if err != nil {
 		return
 	}
-	url := s.UrlHead + `module=account&action=tokentx&address=` + address + `&startblock=` + types.ToString(startBlock) + `&endblock=` + toBlock + `&sort=asc&apikey=` + s.ApiKey
+	url := s.UrlHead + `module=account&action=tokentx&address=` + addressStr + `&startblock=` + types.ToString(startBlock) + `&endblock=` + toBlock + `&sort=asc&apikey=` + s.ApiKey
 	r, err := req.Get(url)
 	if err != nil {
 		return
@@ -53,7 +57,7 @@ func (s *Scanner) GetErc20Transactions(address string, startBlock int, endBlock 
 }
 
 // Get all the erc20 txs of an address.
-func (s *Scanner) GetErc20TransactionsAll(address string) (txs []BlockscanErc20Txs, err error) {
+func (s *Scanner) GetErc20TransactionsAll(address any) (txs []BlockscanErc20Txs, err error) {
 	res, err := s.GetErc20Transactions(address, 0, constants.UnreachableBlock)
 	if err != nil {
 		return

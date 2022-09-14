@@ -32,12 +32,16 @@ type BlockscanInternalTxs struct {
 }
 
 // Get up to 10000 internal txs of an address.
-func (s *Scanner) GetInternalTransactions(address string, startBlock int, endBlock any) (res BlockscanGetInternalTxsReq, err error) {
+func (s *Scanner) GetInternalTransactions(address any, startBlock int, endBlock any) (res BlockscanGetInternalTxsReq, err error) {
 	toBlock, err := processToBlock(endBlock)
 	if err != nil {
 		return
 	}
-	url := s.UrlHead + `module=account&action=txlistinternal&address=` + address + `&startblock=` + types.ToString(startBlock) + `&endblock=` + toBlock + `&sort=asc&apikey=` + s.ApiKey
+	addressStr, err := checkAddress(address)
+	if err != nil {
+		return
+	}
+	url := s.UrlHead + `module=account&action=txlistinternal&address=` + addressStr + `&startblock=` + types.ToString(startBlock) + `&endblock=` + toBlock + `&sort=asc&apikey=` + s.ApiKey
 	r, err := req.Get(url)
 	if err != nil {
 		return
@@ -47,7 +51,7 @@ func (s *Scanner) GetInternalTransactions(address string, startBlock int, endBlo
 }
 
 // Get all the internal txs of an address.
-func (s *Scanner) GetInternalTransactionsAll(address string) (txs []BlockscanInternalTxs, err error) {
+func (s *Scanner) GetInternalTransactionsAll(address any) (txs []BlockscanInternalTxs, err error) {
 	res, err := s.GetInternalTransactions(address, 0, constants.UnreachableBlock)
 	if err != nil {
 		return

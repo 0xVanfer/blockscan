@@ -15,8 +15,12 @@ type BlockscanGetBalanceReq struct {
 }
 
 // Get balance of a single address.
-func (s *Scanner) GetBalance(address string) (balance int, err error) {
-	url := s.UrlHead + `module=account&action=balance&address=` + address + `&tag=latest&apikey=` + s.ApiKey
+func (s *Scanner) GetBalance(address any) (balance int, err error) {
+	addressStr, err := checkAddress(address)
+	if err != nil {
+		return
+	}
+	url := s.UrlHead + `module=account&action=balance&address=` + addressStr + `&tag=latest&apikey=` + s.ApiKey
 	r, err := req.Get(url)
 	if err != nil {
 		return

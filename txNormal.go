@@ -36,12 +36,16 @@ type BlockscanNormalTxs struct {
 }
 
 // Get up to 10000 txs of an address.
-func (s *Scanner) GetNormalTransactions(address string, startBlock int, endBlock any) (res BlockscanGetNormalTxsReq, err error) {
+func (s *Scanner) GetNormalTransactions(address any, startBlock int, endBlock any) (res BlockscanGetNormalTxsReq, err error) {
 	toBlock, err := processToBlock(endBlock)
 	if err != nil {
 		return
 	}
-	url := s.UrlHead + `module=account&action=txlist&address=` + address + `&startblock=` + types.ToString(startBlock) + `&endblock=` + toBlock + `&sort=asc&apikey=` + s.ApiKey
+	addressStr, err := checkAddress(address)
+	if err != nil {
+		return
+	}
+	url := s.UrlHead + `module=account&action=txlist&address=` + addressStr + `&startblock=` + types.ToString(startBlock) + `&endblock=` + toBlock + `&sort=asc&apikey=` + s.ApiKey
 	r, err := req.Get(url)
 	if err != nil {
 		return
@@ -51,7 +55,7 @@ func (s *Scanner) GetNormalTransactions(address string, startBlock int, endBlock
 }
 
 // Get all the txs of an address.
-func (s *Scanner) GetNormalTransactionsAll(address string) (txs []BlockscanNormalTxs, err error) {
+func (s *Scanner) GetNormalTransactionsAll(address any) (txs []BlockscanNormalTxs, err error) {
 	res, err := s.GetNormalTransactions(address, 0, constants.UnreachableBlock)
 	if err != nil {
 		return

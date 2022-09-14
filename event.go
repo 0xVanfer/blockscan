@@ -26,12 +26,16 @@ type BlockscanEvents struct {
 }
 
 // Get up to 1000 events of an address.
-func (s *Scanner) GetEvents(topic0 string, address string, startBlock int, endBlock any) (res BlockscanGetEventsReq, err error) {
+func (s *Scanner) GetEvents(topic0 string, address any, startBlock int, endBlock any) (res BlockscanGetEventsReq, err error) {
 	toBlock, err := processToBlock(endBlock)
 	if err != nil {
 		return
 	}
-	url := s.UrlHead + `module=logs&action=getLogs&fromBlock=` + strconv.Itoa(startBlock) + `&toBlock=` + toBlock + `&address=` + address + `&topic0=` + topic0 + `&apikey=` + s.ApiKey
+	addressStr, err := checkAddress(address)
+	if err != nil {
+		return
+	}
+	url := s.UrlHead + `module=logs&action=getLogs&fromBlock=` + strconv.Itoa(startBlock) + `&toBlock=` + toBlock + `&address=` + addressStr + `&topic0=` + topic0 + `&apikey=` + s.ApiKey
 	r, err := req.Get(url)
 	if err != nil {
 		return
