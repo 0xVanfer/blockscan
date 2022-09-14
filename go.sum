@@ -1,0 +1,4 @@
+github.com/0xVanfer/chainId v0.1.0 h1:DmBckf59v3wecp4uSvh9YB4Jct9q3Js6Pf5Uw6tFUls=
+github.com/0xVanfer/chainId v0.1.0/go.mod h1:YgJHKMKd0J+3VGCoBMjaVE5GUdwQz5Ud585Pr9vEg40=
+github.com/imroc/req v0.3.2 h1:M/JkeU6RPmX+WYvT2vaaOL0K+q8ufL5LxwvJc4xeB4o=
+github.com/imroc/req v0.3.2/go.mod h1:F+NZ+2EFSo6EFXdeIbpfE9hcC233id70kf0byW97Caw=
