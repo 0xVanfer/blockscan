@@ -1,6 +1,6 @@
 ## Blocks
 
-##### 1. GetBlockNumberByTimestamp
+#### 1. GetBlockNumberByTimestamp
 
 Return the block number at specific timestamp.
 

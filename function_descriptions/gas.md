@@ -1,6 +1,6 @@
 ## Gas
 
-##### 1. GetGasPrice
+#### 1. GetGasPrice
 
 Return the gas price in wei.
 

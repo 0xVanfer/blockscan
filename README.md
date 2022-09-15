@@ -25,9 +25,9 @@ ethScanner, _ := blockscan.New(chainId.EthereumChainName, "YOUR API KEY")
 
 ---
 
-## [Accounts](./function_descriptions/accounts.md)
-
 To see more on [etherscan api](https://docs.etherscan.io/api-endpoints/accounts).
+
+## [Accounts](./function_descriptions/accounts.md)
 
 ##### [1. GetBalance](./function_descriptions/accounts.md#1-getbalance)
 
