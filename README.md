@@ -19,7 +19,11 @@
 
 ## New a Scanner
 
+[How to get an api key?](https://docs.etherscan.io/getting-started/viewing-api-usage-statistics)
+
 ```go
+// You can use "" as your api key, but not recommanded.
+// You may suffer from some unpredictabale errors when requesting data form blockscans.
 ethScanner, _ := blockscan.New(chainId.EthereumChainName, "YOUR API KEY")
 avaxScanner, _ := blockscan.New(chainId.AvalancheChainName, "YOUR API KEY")
 polyScanner, _ := blockscan.New(chainId.PolygonChainName, "YOUR API KEY")
