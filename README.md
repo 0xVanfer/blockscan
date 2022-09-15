@@ -21,6 +21,9 @@
 
 ```go
 ethScanner, _ := blockscan.New(chainId.EthereumChainName, "YOUR API KEY")
+avaxScanner, _ := blockscan.New(chainId.AvalancheChainName, "YOUR API KEY")
+polyScanner, _ := blockscan.New(chainId.PolygonChainName, "YOUR API KEY")
+...
 ```
 
 ---
