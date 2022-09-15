@@ -4,6 +4,7 @@ import (
 	"strconv"
 
 	"github.com/0xVanfer/blockscan/internal/constants"
+	"github.com/0xVanfer/blockscan/internal/utils"
 	"github.com/imroc/req"
 )
 
@@ -32,11 +33,11 @@ type BlockscanInternalTxs struct {
 
 // Get up to 10000 internal txs of an address.
 func (s *Scanner) GetInternalTransactions(address any, startBlock int, endBlock any) (res BlockscanGetInternalTxsReq, err error) {
-	toBlock, err := processToBlock(endBlock)
+	toBlock, err := utils.ProcessToBlock(endBlock)
 	if err != nil {
 		return
 	}
-	addressStr, err := checkAddress(address)
+	addressStr, err := utils.CheckAddress(address)
 	if err != nil {
 		return
 	}

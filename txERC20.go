@@ -4,6 +4,7 @@ import (
 	"strconv"
 
 	"github.com/0xVanfer/blockscan/internal/constants"
+	"github.com/0xVanfer/blockscan/internal/utils"
 
 	"github.com/imroc/req"
 )
@@ -38,11 +39,11 @@ type BlockscanErc20Txs struct {
 
 // Get up to 10000 erc20 txs of an address.
 func (s *Scanner) GetErc20Transactions(address any, startBlock int, endBlock any) (res BlockscanGetErc20TxsReq, err error) {
-	addressStr, err := checkAddress(address)
+	addressStr, err := utils.CheckAddress(address)
 	if err != nil {
 		return
 	}
-	toBlock, err := processToBlock(endBlock)
+	toBlock, err := utils.ProcessToBlock(endBlock)
 	if err != nil {
 		return
 	}

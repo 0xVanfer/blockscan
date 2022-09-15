@@ -3,6 +3,7 @@ package blockscan
 import (
 	"encoding/json"
 
+	"github.com/0xVanfer/blockscan/internal/utils"
 	"github.com/imroc/req"
 )
 
@@ -31,7 +32,7 @@ type AbiStruct []struct {
 
 // Get the contract's abi(if it is a verified contract)
 func (s *Scanner) GetContractAbi(address any) (abi AbiStruct, err error) {
-	addressStr, err := checkAddress(address)
+	addressStr, err := utils.CheckAddress(address)
 	if err != nil {
 		return
 	}
@@ -76,7 +77,7 @@ type BlockscanSourceCodeReq struct {
 
 // Get the source code of a contract.
 func (s *Scanner) GetSourceCode(address any) (res BlockscanSourceCodeReq, err error) {
-	addressStr, err := checkAddress(address)
+	addressStr, err := utils.CheckAddress(address)
 	if err != nil {
 		return
 	}

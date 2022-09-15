@@ -1,4 +1,4 @@
-package blockscan
+package utils
 
 import (
 	"errors"
@@ -6,7 +6,7 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 )
 
-func checkAddress(address any) (addressStr string, err error) {
+func CheckAddress(address any) (addressStr string, err error) {
 	switch v := address.(type) {
 	case string:
 		if len(v) != 42 {

@@ -4,6 +4,7 @@ import (
 	"strconv"
 
 	"github.com/0xVanfer/blockscan/internal/constants"
+	"github.com/0xVanfer/blockscan/internal/utils"
 	"github.com/imroc/req"
 )
 
@@ -36,11 +37,11 @@ type BlockscanNormalTxs struct {
 
 // Get up to 10000 txs of an address.
 func (s *Scanner) GetNormalTransactions(address any, startBlock int, endBlock any) (res BlockscanGetNormalTxsReq, err error) {
-	toBlock, err := processToBlock(endBlock)
+	toBlock, err := utils.ProcessToBlock(endBlock)
 	if err != nil {
 		return
 	}
-	addressStr, err := checkAddress(address)
+	addressStr, err := utils.CheckAddress(address)
 	if err != nil {
 		return
 	}

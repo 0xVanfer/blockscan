@@ -1,4 +1,4 @@
-package blockscan
+package utils
 
 import (
 	"errors"
@@ -6,7 +6,7 @@ import (
 	"strconv"
 )
 
-func processToBlock(endBlock any) (toBlock string, err error) {
+func ProcessToBlock(endBlock any) (toBlock string, err error) {
 	switch v := endBlock.(type) {
 	case int:
 		toBlock = strconv.FormatInt(int64(v), 10)
