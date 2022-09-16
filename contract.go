@@ -30,83 +30,87 @@ type AbiStruct []struct {
 	} `json:"outputs"`
 }
 
-// Get the contract's abi(if it is a verified contract)
-func (s *Scanner) GetContractAbi(address any) (abi AbiStruct, err error) {
+// Return the contract's abi.
+func (s *Scanner) GetContractAbi(address any) (AbiStruct, error) {
 	addressStr, err := utils.CheckAddress(address)
 	if err != nil {
-		return
+		return nil, err
 	}
 	url := s.UrlHead + `module=contract&action=getabi&address=` + addressStr + `&apikey=` + s.ApiKey
 	r, err := req.Get(url)
 	if err != nil {
-		return
+		return nil, err
 	}
 	var abiReq BlockscanResultStringReq
 	err = r.ToJSON(&abiReq)
 	if err != nil {
-		return
+		return nil, err
 	}
 	rawMassage := json.RawMessage(abiReq.Result)
 	abiByte, err := json.Marshal(rawMassage)
 	if err != nil {
-		return
+		return nil, err
 	}
+	var abi AbiStruct
 	err = json.Unmarshal(abiByte, &abi)
-	return
+	return abi, err
 }
 
 type BlockscanSourceCodeReq struct {
-	Status  string `json:"status"`
-	Message string `json:"message"`
-	Result  []struct {
-		SourceCode           string `json:"SourceCode"`
-		Abi                  string `json:"ABI"`
-		ContractName         string `json:"ContractName"`
-		CompilerVersion      string `json:"CompilerVersion"`
-		OptimizationUsed     string `json:"OptimizationUsed"`
-		Runs                 string `json:"Runs"`
-		ConstructorArguments string `json:"ConstructorArguments"`
-		EVMVersion           string `json:"EVMVersion"`
-		Library              string `json:"Library"`
-		LicenseType          string `json:"LicenseType"`
-		Proxy                string `json:"Proxy"`
-		Implementation       string `json:"Implementation"`
-		SwarmSource          string `json:"SwarmSource"`
-	} `json:"result"`
+	Status  string                `json:"status"`
+	Message string                `json:"message"`
+	Result  []BlockscanSourceCode `json:"result"`
+}
+type BlockscanSourceCode struct {
+	SourceCode           string `json:"SourceCode"`
+	Abi                  string `json:"ABI"`
+	ContractName         string `json:"ContractName"`
+	CompilerVersion      string `json:"CompilerVersion"`
+	OptimizationUsed     string `json:"OptimizationUsed"`
+	Runs                 string `json:"Runs"`
+	ConstructorArguments string `json:"ConstructorArguments"`
+	EVMVersion           string `json:"EVMVersion"`
+	Library              string `json:"Library"`
+	LicenseType          string `json:"LicenseType"`
+	Proxy                string `json:"Proxy"`
+	Implementation       string `json:"Implementation"`
+	SwarmSource          string `json:"SwarmSource"`
 }
 
-// Get the source code of a contract.
-func (s *Scanner) GetSourceCode(address any) (res BlockscanSourceCodeReq, err error) {
+// Return the source code of a contract.
+func (s *Scanner) GetSourceCode(address any) (BlockscanSourceCode, error) {
+	var res BlockscanSourceCodeReq
 	addressStr, err := utils.CheckAddress(address)
 	if err != nil {
-		return
+		return BlockscanSourceCode{}, err
 	}
 	url := s.UrlHead + `module=contract&action=getsourcecode&address=` + addressStr + `&apikey=` + s.ApiKey
 	r, err := req.Get(url)
 	if err != nil {
-		return
+		return BlockscanSourceCode{}, err
 	}
 	err = r.ToJSON(&res)
-	return
+	return res.Result[0], err
 }
 
-// Get the contract's name by its source code.
-func (s *Scanner) GetContractName(address any) (name string, err error) {
+// Return the contract's name.
+func (s *Scanner) GetContractName(address any) (string, error) {
 	sourceCode, err := s.GetSourceCode(address)
 	if err != nil {
-		return
+		return "", err
 	}
-	name = sourceCode.Result[0].ContractName
-	return
+	name := sourceCode.ContractName
+	return name, nil
 }
 
+// Return whether the address is a verified contract.
 // Some contracts may not be verified, will be considered not contract.
-func (s *Scanner) IsVerifiedContract(address any) (isContract bool, err error) {
+func (s *Scanner) IsVerifiedContract(address any) (bool, error) {
 	sourceCode, err := s.GetSourceCode(address)
 	if err != nil {
-		return
+		return false, err
 	}
 	// if verified, has contract name
-	isContract = !(sourceCode.Result[0].ContractName == "")
-	return
+	isVerified := !(sourceCode.ContractName == "")
+	return isVerified, nil
 }

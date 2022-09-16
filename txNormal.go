@@ -1,10 +1,9 @@
 package blockscan
 
 import (
-	"strconv"
-
 	"github.com/0xVanfer/blockscan/internal/constants"
 	"github.com/0xVanfer/blockscan/internal/utils"
+	"github.com/0xVanfer/types"
 	"github.com/imroc/req"
 )
 
@@ -35,44 +34,44 @@ type BlockscanNormalTxs struct {
 	Confirmations     string `json:"confirmations"`
 }
 
-// Get up to 10000 txs of an address.
-func (s *Scanner) GetNormalTransactions(address any, startBlock int, endBlock any) (res BlockscanGetNormalTxsReq, err error) {
-	toBlock, err := utils.ProcessToBlock(endBlock)
+// Return up to 10000 txs of an address.
+func (s *Scanner) GetNormalTransactions(address any, startBlock int, endBlock any) ([]BlockscanNormalTxs, error) {
+	toBlock, err := utils.CheckToBlock(endBlock)
 	if err != nil {
-		return
+		return nil, err
 	}
 	addressStr, err := utils.CheckAddress(address)
 	if err != nil {
-		return
+		return nil, err
 	}
-	url := s.UrlHead + `module=account&action=txlist&address=` + addressStr + `&startblock=` + strconv.FormatInt(int64(startBlock), 10) + `&endblock=` + toBlock + `&sort=asc&apikey=` + s.ApiKey
+	url := s.UrlHead + `module=account&action=txlist&address=` + addressStr + `&startblock=` + types.ToString(startBlock) + `&endblock=` + toBlock + `&sort=asc&apikey=` + s.ApiKey
 	r, err := req.Get(url)
 	if err != nil {
-		return
+		return nil, err
 	}
+	var res BlockscanGetNormalTxsReq
 	err = r.ToJSON(&res)
-	return
+	if err != nil {
+		return nil, err
+	}
+	return res.Result, nil
 }
 
-// Get all the txs of an address.
-func (s *Scanner) GetNormalTransactionsAll(address any) (txs []BlockscanNormalTxs, err error) {
+// Return all the txs of an address.
+func (s *Scanner) GetNormalTransactionsAll(address any) ([]BlockscanNormalTxs, error) {
 	res, err := s.GetNormalTransactions(address, 0, constants.UnreachableBlock)
 	if err != nil {
-		return
+		return nil, err
 	}
-	txs = append(txs, res.Result...)
-	for len(res.Result) == 10000 {
-		lastEndBlock := res.Result[len(res.Result)-1].BlockNumber
-		lastEndBlockInt, err := strconv.Atoi(lastEndBlock)
-		if err != nil {
-			return nil, err
-		}
-		startBlock := lastEndBlockInt + 1
+	txs := res
+	for len(res) == 10000 {
+		lastEndBlock := res[len(res)-1].BlockNumber
+		startBlock := types.ToInt(lastEndBlock) + 1
 		res, err = s.GetNormalTransactions(address, startBlock, constants.UnreachableBlock)
 		if err != nil {
 			return nil, err
 		}
-		txs = append(txs, res.Result...)
+		txs = append(txs, res...)
 	}
-	return
+	return txs, nil
 }

@@ -1,8 +1,7 @@
 package blockscan
 
 import (
-	"strconv"
-
+	"github.com/0xVanfer/types"
 	"github.com/imroc/req"
 )
 
@@ -12,18 +11,18 @@ type BlockscanGasPriceReq struct {
 	Result  string `json:"result"`
 }
 
-// Get gas price.
-func (s *Scanner) GetGasPrice() (gasPrice int64, err error) {
+// Return gas price.
+func (s *Scanner) GetGasPrice() (int64, error) {
 	url := s.UrlHead + `module=proxy&action=eth_gasPrice&apikey=` + s.ApiKey
 	r, err := req.Get(url)
 	if err != nil {
-		return
+		return 0, err
 	}
 	var res BlockscanGasPriceReq
 	err = r.ToJSON(&res)
 	if err != nil {
-		return
+		return 0, err
 	}
-	gasPrice, err = strconv.ParseInt(res.Result[2:], 16, 64)
-	return
+	gasPrice := types.ToInt64(res.Result)
+	return gasPrice, nil
 }
