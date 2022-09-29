@@ -11,7 +11,8 @@ type BlockscanInfo struct {
 }
 
 // Use my own api keys.
-// Each key has a limit of 5 times/sec. Everyone uses default keys will share the limit.
+//
+// Each key has a limit of 5 times/sec. Every one uses default keys will share the limit.
 var BlockscanCnf = map[string]BlockscanInfo{
 	chainId.ArbitrumChainName:      {URLHead: "https://api.arbiscan.io/api?", APIKey: "BCJX4984KDQ8A3U9WWH8P2EQKN76YV8T5T"},
 	chainId.AvalancheChainName:     {URLHead: "https://api.snowtrace.io/api?", APIKey: "K6SR1G96B2SQBRWPI4JP8WXM6BCG62EPQ7"},

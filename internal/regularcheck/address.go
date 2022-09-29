@@ -1,4 +1,4 @@
-package utils
+package regularcheck
 
 import (
 	"errors"
@@ -6,8 +6,8 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 )
 
-// Check if the "address" param is legal, convert to string.
-func CheckAddress(address any) (addressStr string, err error) {
+// Check if the "address" param is legal, and convert to string.
+func RegularCheckAddress(address any) (addressStr string, err error) {
 	switch v := address.(type) {
 	case string:
 		if len(v) != 42 {

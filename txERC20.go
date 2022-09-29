@@ -2,7 +2,7 @@ package blockscan
 
 import (
 	"github.com/0xVanfer/blockscan/internal/constants"
-	"github.com/0xVanfer/blockscan/internal/utils"
+	"github.com/0xVanfer/blockscan/internal/regularcheck"
 	"github.com/0xVanfer/types"
 
 	"github.com/imroc/req"
@@ -38,11 +38,11 @@ type BlockscanErc20Txs struct {
 
 // Return up to 10000 erc20 txs of an address.
 func (s *Scanner) GetErc20Transactions(address any, startBlock int, endBlock any) ([]BlockscanErc20Txs, error) {
-	addressStr, err := utils.CheckAddress(address)
+	addressStr, err := regularcheck.RegularCheckAddress(address)
 	if err != nil {
 		return nil, err
 	}
-	toBlock, err := utils.CheckToBlock(endBlock)
+	toBlock, err := regularcheck.RegularCheckToBlock(endBlock)
 	if err != nil {
 		return nil, err
 	}

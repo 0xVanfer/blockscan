@@ -1,4 +1,4 @@
-package utils
+package regularcheck
 
 import (
 	"errors"
@@ -6,8 +6,8 @@ import (
 	"strconv"
 )
 
-// Check if the "endblock" param is legal, convert to string.
-func CheckToBlock(endBlock any) (toBlock string, err error) {
+// Check if the "endblock" param is legal, and convert to string.
+func RegularCheckToBlock(endBlock any) (toBlock string, err error) {
 	switch v := endBlock.(type) {
 	case int:
 		toBlock = strconv.FormatInt(int64(v), 10)

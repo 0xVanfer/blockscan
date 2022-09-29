@@ -7,11 +7,18 @@ import (
 )
 
 type Scanner struct {
-	UrlHead string
-	ApiKey  string
+	UrlHead string // Url head based on network.
+	ApiKey  string // User's api key, length should be 34.
 }
 
 // Create a new scanner.
+//
+// "network" should be the full name of the chain, such as "ethereum", "avalanche", etc.
+//
+// "apiKey" is the key for blockscan requests.
+// When the key is "", default key will be used. Otherwise, the key length should be 34.
+//
+// To get an apikey on ethereum, visit https://docs.etherscan.io/getting-started/viewing-api-usage-statistics
 func New(network string, apiKey string) (*Scanner, error) {
 	var urlHead string
 	var defaultKey string

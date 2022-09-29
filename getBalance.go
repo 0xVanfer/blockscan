@@ -3,8 +3,9 @@ package blockscan
 import (
 	"errors"
 
-	"github.com/0xVanfer/blockscan/internal/utils"
+	"github.com/0xVanfer/blockscan/internal/regularcheck"
 	"github.com/0xVanfer/types"
+	"github.com/0xVanfer/utils"
 	"github.com/imroc/req"
 )
 
@@ -16,7 +17,7 @@ type BlockscanGetBalanceReq struct {
 
 // Return the balance of a single address.
 func (s *Scanner) GetBalance(address any) (int64, error) {
-	addressStr, err := utils.CheckAddress(address)
+	addressStr, err := regularcheck.RegularCheckAddress(address)
 	if err != nil {
 		return 0, err
 	}
@@ -43,8 +44,7 @@ type BlockscanGetBalancesReq struct {
 	} `json:"result"`
 }
 
-// map[address] = balance.
-// Return balances of up to 20 addresses.
+// Return balances of up to 20 addresses. map[address] = balance.
 func (s *Scanner) GetBalances(addresses []string) (map[string]int64, error) {
 	addressesString := utils.ConnectArray(addresses, ",")
 	url := s.UrlHead + `module=account&action=balancemulti&address=` + addressesString + `&tag=latest&apikey=` + s.ApiKey

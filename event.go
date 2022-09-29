@@ -1,7 +1,7 @@
 package blockscan
 
 import (
-	"github.com/0xVanfer/blockscan/internal/utils"
+	"github.com/0xVanfer/blockscan/internal/regularcheck"
 	"github.com/0xVanfer/types"
 	"github.com/imroc/req"
 )
@@ -27,11 +27,11 @@ type BlockscanEvents struct {
 
 // Return up to 1000 events of an address.
 func (s *Scanner) GetEvents(topic0 string, address any, startBlock int, endBlock any) ([]BlockscanEvents, error) {
-	toBlock, err := utils.CheckToBlock(endBlock)
+	toBlock, err := regularcheck.RegularCheckToBlock(endBlock)
 	if err != nil {
 		return nil, err
 	}
-	addressStr, err := utils.CheckAddress(address)
+	addressStr, err := regularcheck.RegularCheckAddress(address)
 	if err != nil {
 		return nil, err
 	}
