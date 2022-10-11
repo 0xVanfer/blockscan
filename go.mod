@@ -5,7 +5,7 @@ go 1.19
 require (
 	github.com/0xVanfer/chainId v0.1.1
 	github.com/0xVanfer/types v0.1.2
-	github.com/0xVanfer/utils v0.0.5
+	github.com/0xVanfer/utils v0.0.6
 	github.com/ethereum/go-ethereum v1.10.25
 	github.com/imroc/req v0.3.2
 )
