@@ -2,8 +2,8 @@ github.com/0xVanfer/chainId v0.1.1 h1:aQrBUm45j02lIWe2nOha4woJUPMucFLmxJ3TIimPUQ
 github.com/0xVanfer/chainId v0.1.1/go.mod h1:YgJHKMKd0J+3VGCoBMjaVE5GUdwQz5Ud585Pr9vEg40=
 github.com/0xVanfer/types v0.1.4 h1:bQ9IMUC70QQu0rk3fcEBYdY/whFuqDT8YCtmudx/0uw=
 github.com/0xVanfer/types v0.1.4/go.mod h1:8QSGeOQOStzyb8kAZXRVnxJLOJVMqI16lO/a+OBXFOc=
-github.com/0xVanfer/utils v0.1.0 h1:FVcJYaY6UJb8W+i/R6FaijM0EWokWjO79yXiPN+ccf8=
-github.com/0xVanfer/utils v0.1.0/go.mod h1:Yk0psYEYoaFGdXkK2HNSigxs3CAdlyiwoTYXkryFkQc=
+github.com/0xVanfer/utils v0.2.0 h1:7rJw4Z4SSgsGm9jBGoy5w0aYUo5CIvQo6grmRLdrdC8=
+github.com/0xVanfer/utils v0.2.0/go.mod h1:Yk0psYEYoaFGdXkK2HNSigxs3CAdlyiwoTYXkryFkQc=
 github.com/btcsuite/btcd/btcec/v2 v2.2.0 h1:fzn1qaOt32TuLjFlkzYSsBC35Q3KUjT1SwPxiMSCF5k=
 github.com/btcsuite/btcd/btcec/v2 v2.2.0/go.mod h1:U7MHm051Al6XmscBQ0BoNydpOTsFAn707034b5nY8zU=
 github.com/btcsuite/btcd/chaincfg/chainhash v1.0.1 h1:q0rUy8C/TYNBQS1+CGKw68tLOFYSNEs0TFnxxnS9+4U=

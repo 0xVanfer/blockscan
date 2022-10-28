@@ -1,3 +1,13 @@
+// Request info from blockscan.
+//
+// Example:
+//
+//	// To get the balance of address "0xb31f66aa3c1e785363f0875a1b74e27b85fd66c7"
+//	scanner, err:=blockscan.New("avalanche","")
+//	if err != nil { return err }
+//	res, err := scanner.GetBalance("0xb31f66aa3c1e785363f0875a1b74e27b85fd66c7")
+//	if err != nil { return err }
+//	fmt.Println(res)
 package blockscan
 
 import (
