@@ -9,12 +9,6 @@ import (
 	"github.com/imroc/req"
 )
 
-type BlockscanGetBalanceReq struct {
-	Status  string `json:"status"`
-	Message string `json:"message"`
-	Result  string `json:"result"`
-}
-
 // Return the balance of a single address.
 func (s *Scanner) GetBalance(address any) (int64, error) {
 	addressStr, err := regularcheck.RegularCheckAddress(address)
@@ -26,22 +20,13 @@ func (s *Scanner) GetBalance(address any) (int64, error) {
 	if err != nil {
 		return 0, err
 	}
-	var res BlockscanGetBalanceReq
+	var res getBalanceReq
 	err = r.ToJSON(&res)
 	if err != nil {
 		return 0, err
 	}
 	balance := types.ToInt64(res.Result)
 	return balance, nil
-}
-
-type BlockscanGetBalancesReq struct {
-	Status  string `json:"status"`
-	Message string `json:"message"`
-	Result  []struct {
-		Account string `json:"account"`
-		Balance string `json:"balance"`
-	} `json:"result"`
 }
 
 // Return balances of up to 20 addresses. map[address] = balance.
@@ -52,7 +37,7 @@ func (s *Scanner) GetBalances(addresses []string) (map[string]int64, error) {
 	if err != nil {
 		return nil, err
 	}
-	var res BlockscanGetBalancesReq
+	var res getBalancesReq
 	err = r.ToJSON(&res)
 	if err != nil {
 		return nil, err

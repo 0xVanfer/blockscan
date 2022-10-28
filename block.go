@@ -12,7 +12,7 @@ func (s *Scanner) GetBlockNumberByTimestamp(timestamp string) (int64, error) {
 	if err != nil {
 		return 0, err
 	}
-	var res BlockscanResultStringReq
+	var res resultStringReq
 	err = r.ToJSON(&res)
 	if err != nil {
 		return 0, err

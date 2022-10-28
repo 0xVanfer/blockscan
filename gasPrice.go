@@ -5,12 +5,6 @@ import (
 	"github.com/imroc/req"
 )
 
-type BlockscanGasPriceReq struct {
-	Jsonrpc string `json:"jsonrpc"`
-	ID      int    `json:"id"`
-	Result  string `json:"result"`
-}
-
 // Return gas price.
 func (s *Scanner) GetGasPrice() (int64, error) {
 	url := s.UrlHead + `module=proxy&action=eth_gasPrice&apikey=` + s.ApiKey
@@ -18,7 +12,7 @@ func (s *Scanner) GetGasPrice() (int64, error) {
 	if err != nil {
 		return 0, err
 	}
-	var res BlockscanGasPriceReq
+	var res gasPriceReq
 	err = r.ToJSON(&res)
 	if err != nil {
 		return 0, err

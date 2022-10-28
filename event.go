@@ -6,27 +6,8 @@ import (
 	"github.com/imroc/req"
 )
 
-type BlockscanGetEventsReq struct {
-	Status  string            `json:"status"`
-	Message string            `json:"message"`
-	Result  []BlockscanEvents `json:"result"`
-}
-
-type BlockscanEvents struct {
-	Address          string   `json:"address"`
-	Topics           []string `json:"topics"`
-	Data             string   `json:"data"`
-	BlockNumber      string   `json:"blockNumber"`
-	TimeStamp        string   `json:"timeStamp"`
-	GasPrice         string   `json:"gasPrice"`
-	GasUsed          string   `json:"gasUsed"`
-	LogIndex         string   `json:"logIndex"`
-	TransactionHash  string   `json:"transactionHash"`
-	TransactionIndex string   `json:"transactionIndex"`
-}
-
 // Return up to 1000 events of an address.
-func (s *Scanner) GetEvents(topic0 string, address any, startBlock int, endBlock any) ([]BlockscanEvents, error) {
+func (s *Scanner) GetEvents(topic0 string, address any, startBlock int, endBlock any) ([]events, error) {
 	toBlock, err := regularcheck.RegularCheckToBlock(endBlock)
 	if err != nil {
 		return nil, err
@@ -40,7 +21,7 @@ func (s *Scanner) GetEvents(topic0 string, address any, startBlock int, endBlock
 	if err != nil {
 		return nil, err
 	}
-	var res BlockscanGetEventsReq
+	var res getEventsReq
 	err = r.ToJSON(&res)
 	if err != nil {
 		return nil, err
@@ -49,7 +30,7 @@ func (s *Scanner) GetEvents(topic0 string, address any, startBlock int, endBlock
 }
 
 // Return all the events of an address.
-func (s *Scanner) GetEventsAll(topic0 string, address string) ([]BlockscanEvents, error) {
+func (s *Scanner) GetEventsAll(topic0 string, address string) ([]events, error) {
 	res, err := s.GetEvents(topic0, address, 0, "latest")
 	if err != nil {
 		return nil, err

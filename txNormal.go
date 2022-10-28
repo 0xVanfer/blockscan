@@ -7,35 +7,8 @@ import (
 	"github.com/imroc/req"
 )
 
-type BlockscanGetNormalTxsReq struct {
-	Status  string               `json:"status"`
-	Message string               `json:"message"`
-	Result  []BlockscanNormalTxs `json:"result"`
-}
-
-type BlockscanNormalTxs struct {
-	BlockNumber       string `json:"blockNumber"`
-	TimeStamp         string `json:"timeStamp"`
-	Hash              string `json:"hash"`
-	Nonce             string `json:"nonce"`
-	BlockHash         string `json:"blockHash"`
-	TransactionIndex  string `json:"transactionIndex"`
-	From              string `json:"from"`
-	To                string `json:"to"`
-	Value             string `json:"value"`
-	Gas               string `json:"gas"`
-	GasPrice          string `json:"gasPrice"`
-	IsError           string `json:"isError"`
-	TxreceiptStatus   string `json:"txreceipt_status"`
-	Input             string `json:"input"`
-	ContractAddress   string `json:"contractAddress"`
-	CumulativeGasUsed string `json:"cumulativeGasUsed"`
-	GasUsed           string `json:"gasUsed"`
-	Confirmations     string `json:"confirmations"`
-}
-
 // Return up to 10000 txs of an address.
-func (s *Scanner) GetNormalTransactions(address any, startBlock int, endBlock any) ([]BlockscanNormalTxs, error) {
+func (s *Scanner) GetNormalTransactions(address any, startBlock int, endBlock any) ([]normalTxs, error) {
 	toBlock, err := regularcheck.RegularCheckToBlock(endBlock)
 	if err != nil {
 		return nil, err
@@ -49,7 +22,7 @@ func (s *Scanner) GetNormalTransactions(address any, startBlock int, endBlock an
 	if err != nil {
 		return nil, err
 	}
-	var res BlockscanGetNormalTxsReq
+	var res getNormalTxsReq
 	err = r.ToJSON(&res)
 	if err != nil {
 		return nil, err
@@ -58,7 +31,7 @@ func (s *Scanner) GetNormalTransactions(address any, startBlock int, endBlock an
 }
 
 // Return all the txs of an address.
-func (s *Scanner) GetNormalTransactionsAll(address any) ([]BlockscanNormalTxs, error) {
+func (s *Scanner) GetNormalTransactionsAll(address any) ([]normalTxs, error) {
 	res, err := s.GetNormalTransactions(address, 0, constants.UnreachableBlock)
 	if err != nil {
 		return nil, err
