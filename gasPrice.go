@@ -1,22 +1,24 @@
 package blockscan
 
 import (
+	"math/big"
+
 	"github.com/0xVanfer/types"
 	"github.com/imroc/req"
 )
 
-// Return gas price.
-func (s *Scanner) GetGasPrice() (int64, error) {
+// Return gas price in WEI.
+func (s *Scanner) GetGasPrice() (*big.Int, error) {
 	url := s.UrlHead + `module=proxy&action=eth_gasPrice&apikey=` + s.ApiKey
 	r, err := req.Get(url)
 	if err != nil {
-		return 0, err
+		return nil, err
 	}
 	var res gasPriceReq
 	err = r.ToJSON(&res)
 	if err != nil {
-		return 0, err
+		return nil, err
 	}
-	gasPrice := types.ToInt64(res.Result)
+	gasPrice := types.ToBigInt(res.Result)
 	return gasPrice, nil
 }

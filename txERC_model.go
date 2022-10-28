@@ -7,23 +7,23 @@ type getErc20TxsReq struct {
 }
 
 type erc20Txs struct {
-	BlockNumber       string `json:"blockNumber"`
-	TimeStamp         string `json:"timeStamp"`
-	Hash              string `json:"hash"`
-	Nonce             string `json:"nonce"`
-	BlockHash         string `json:"blockHash"`
-	From              string `json:"from"`
-	ContractAddress   string `json:"contractAddress"`
-	To                string `json:"to"`
-	Value             string `json:"value"`
-	TokenName         string `json:"tokenName"`
-	TokenSymbol       string `json:"tokenSymbol"`
-	TokenDecimal      string `json:"tokenDecimal"`
-	TransactionIndex  string `json:"transactionIndex"`
-	Gas               string `json:"gas"`
-	GasPrice          string `json:"gasPrice"`
-	GasUsed           string `json:"gasUsed"`
-	CumulativeGasUsed string `json:"cumulativeGasUsed"`
-	Input             string `json:"input"`
-	Confirmations     string `json:"confirmations"`
+	BlockNumber       string `json:"blockNumber"`       // block number
+	TimeStamp         string `json:"timeStamp"`         // timestamp
+	Hash              string `json:"hash"`              // tx hash
+	Nonce             string `json:"nonce"`             // tx nonce
+	BlockHash         string `json:"blockHash"`         // block hash
+	From              string `json:"from"`              // who sent this token
+	ContractAddress   string `json:"contractAddress"`   // token contract
+	To                string `json:"to"`                // who received this token
+	Value             string `json:"value"`             // value in WEI
+	TokenName         string `json:"tokenName"`         // token name
+	TokenSymbol       string `json:"tokenSymbol"`       // token symbol
+	TokenDecimal      string `json:"tokenDecimal"`      // token decimals
+	TransactionIndex  string `json:"transactionIndex"`  // tx index
+	Gas               string `json:"gas"`               // gas
+	GasPrice          string `json:"gasPrice"`          // gas price
+	GasUsed           string `json:"gasUsed"`           // gas used
+	CumulativeGasUsed string `json:"cumulativeGasUsed"` //
+	Input             string `json:"input"`             //
+	Confirmations     string `json:"confirmations"`     //
 }

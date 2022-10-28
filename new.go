@@ -2,6 +2,7 @@ package blockscan
 
 import (
 	"errors"
+	"fmt"
 
 	"github.com/0xVanfer/blockscan/internal/constants"
 )
@@ -13,12 +14,15 @@ type Scanner struct {
 
 // Create a new scanner.
 //
-// "network" should be the full name of the chain, such as "ethereum", "avalanche", etc.
+// "network" should be the full name of the chain,
+// such as "ethereum", "avalanche", etc.
 //
 // "apiKey" is the key for blockscan requests.
-// When the key is "", default key will be used. Otherwise, the key length should be 34.
+// When the key is "", default key will be used.
+// Otherwise, the key length should be 34.
 //
-// To get an apikey on ethereum, visit https://docs.etherscan.io/getting-started/viewing-api-usage-statistics
+// To get an apikey on ethereum, visit
+// https://docs.etherscan.io/getting-started/viewing-api-usage-statistics
 func New(network string, apiKey string) (*Scanner, error) {
 	var urlHead string
 	var defaultKey string
@@ -34,6 +38,7 @@ func New(network string, apiKey string) (*Scanner, error) {
 	}
 	if apiKey == "" {
 		apiKey = defaultKey
+		fmt.Println("You do not have a blockscan api key. Unecpected errors may occur when running.")
 	}
 	if len(apiKey) != 34 {
 		err := errors.New("api key length should be 34")

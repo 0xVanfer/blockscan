@@ -7,22 +7,22 @@ type getNormalTxsReq struct {
 }
 
 type normalTxs struct {
-	BlockNumber       string `json:"blockNumber"`
-	TimeStamp         string `json:"timeStamp"`
-	Hash              string `json:"hash"`
-	Nonce             string `json:"nonce"`
-	BlockHash         string `json:"blockHash"`
-	TransactionIndex  string `json:"transactionIndex"`
-	From              string `json:"from"`
-	To                string `json:"to"`
-	Value             string `json:"value"`
-	Gas               string `json:"gas"`
-	GasPrice          string `json:"gasPrice"`
-	IsError           string `json:"isError"`
-	TxreceiptStatus   string `json:"txreceipt_status"`
-	Input             string `json:"input"`
-	ContractAddress   string `json:"contractAddress"`
-	CumulativeGasUsed string `json:"cumulativeGasUsed"`
-	GasUsed           string `json:"gasUsed"`
-	Confirmations     string `json:"confirmations"`
+	BlockNumber       string `json:"blockNumber"`       // tx block number
+	TimeStamp         string `json:"timeStamp"`         // tx timestamp
+	Hash              string `json:"hash"`              // tx hash
+	Nonce             string `json:"nonce"`             // tx nonce
+	BlockHash         string `json:"blockHash"`         // tx block hash
+	TransactionIndex  string `json:"transactionIndex"`  // tx index
+	From              string `json:"from"`              // who call the contract
+	To                string `json:"to"`                // who received the call
+	Value             string `json:"value"`             // value in WEI
+	Gas               string `json:"gas"`               //
+	GasPrice          string `json:"gasPrice"`          //
+	IsError           string `json:"isError"`           //
+	TxreceiptStatus   string `json:"txreceipt_status"`  //
+	Input             string `json:"input"`             // call data
+	ContractAddress   string `json:"contractAddress"`   //
+	CumulativeGasUsed string `json:"cumulativeGasUsed"` //
+	GasUsed           string `json:"gasUsed"`           //
+	Confirmations     string `json:"confirmations"`     //
 }
