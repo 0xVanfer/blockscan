@@ -5,8 +5,8 @@ import (
 	"math/big"
 
 	"github.com/0xVanfer/blockscan/internal/regularcheck"
-	"github.com/0xVanfer/blockscan/internal/utils"
 	"github.com/0xVanfer/types"
+	"github.com/0xVanfer/utils"
 	"github.com/imroc/req"
 )
 

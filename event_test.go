@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/0xVanfer/blockscan/internal/utils"
 	"github.com/0xVanfer/chainId"
+	"github.com/0xVanfer/utils"
 )
 
 func TestGetEvents(t *testing.T) {

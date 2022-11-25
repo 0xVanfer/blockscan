@@ -3,8 +3,8 @@ package blockscan
 import (
 	"testing"
 
-	"github.com/0xVanfer/blockscan/internal/utils"
 	"github.com/0xVanfer/chainId"
+	"github.com/0xVanfer/utils"
 )
 
 func TestTxERC20(t *testing.T) {
