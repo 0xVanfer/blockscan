@@ -8,7 +8,7 @@ import (
 )
 
 // Return up to 10000 internal txs of an address.
-func (s *Scanner) GetInternalTransactions(address any, startBlock int, endBlock any) ([]internalTxs, error) {
+func (s *Scanner) GetInternalTransactions(address any, startBlock int, endBlock any) ([]InternalTxs, error) {
 	toBlock, err := regularcheck.RegularCheckToBlock(endBlock)
 	if err != nil {
 		return nil, err
@@ -31,7 +31,7 @@ func (s *Scanner) GetInternalTransactions(address any, startBlock int, endBlock 
 }
 
 // Return all the internal txs of an address.
-func (s *Scanner) GetInternalTransactionsAll(address any) ([]internalTxs, error) {
+func (s *Scanner) GetInternalTransactionsAll(address any) ([]InternalTxs, error) {
 	res, err := s.GetInternalTransactions(address, 0, constants.UnreachableBlock)
 	if err != nil {
 		return nil, err

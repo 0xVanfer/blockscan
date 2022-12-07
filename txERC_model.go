@@ -3,10 +3,10 @@ package blockscan
 type getErc20TxsReq struct {
 	Status  string     `json:"status"`
 	Message string     `json:"message"`
-	Result  []erc20Txs `json:"result"`
+	Result  []Erc20Txs `json:"result"`
 }
 
-type erc20Txs struct {
+type Erc20Txs struct {
 	BlockNumber       string `json:"blockNumber"`       // block number
 	TimeStamp         string `json:"timeStamp"`         // timestamp
 	Hash              string `json:"hash"`              // tx hash

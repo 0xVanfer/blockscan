@@ -8,7 +8,7 @@ import (
 )
 
 // Return up to 10000 txs of an address.
-func (s *Scanner) GetNormalTransactions(address any, startBlock int, endBlock any) ([]normalTxs, error) {
+func (s *Scanner) GetNormalTransactions(address any, startBlock int, endBlock any) ([]NormalTxs, error) {
 	toBlock, err := regularcheck.RegularCheckToBlock(endBlock)
 	if err != nil {
 		return nil, err
@@ -31,7 +31,7 @@ func (s *Scanner) GetNormalTransactions(address any, startBlock int, endBlock an
 }
 
 // Return all the txs of an address.
-func (s *Scanner) GetNormalTransactionsAll(address any) ([]normalTxs, error) {
+func (s *Scanner) GetNormalTransactionsAll(address any) ([]NormalTxs, error) {
 	res, err := s.GetNormalTransactions(address, 0, constants.UnreachableBlock)
 	if err != nil {
 		return nil, err

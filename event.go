@@ -14,7 +14,7 @@ import (
 //	address:    The address. Can be string or common.Address
 //	startBlock: The block to start from.
 //	endBlock:   The block to end. If greater than latest block number, or use "latest", will use the latest block number.
-func (s *Scanner) GetEvents(topic0 string, address any, startBlock int, endBlock any) ([]events, error) {
+func (s *Scanner) GetEvents(topic0 string, address any, startBlock int, endBlock any) ([]Events, error) {
 	toBlock, err := regularcheck.RegularCheckToBlock(endBlock)
 	if err != nil {
 		return nil, err
@@ -42,7 +42,7 @@ func (s *Scanner) GetEvents(topic0 string, address any, startBlock int, endBlock
 //
 //	topic0:     The topic0 of the event. In most cases means the hash of the function name.
 //	address:    The address. Can be string or common.Address
-func (s *Scanner) GetEventsAll(topic0 string, address string) ([]events, error) {
+func (s *Scanner) GetEventsAll(topic0 string, address string) ([]Events, error) {
 	res, err := s.GetEvents(topic0, address, 0, "latest")
 	if err != nil {
 		return nil, err

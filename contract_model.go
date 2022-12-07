@@ -28,10 +28,10 @@ type AbiOutput struct {
 type sourceCodeReq struct {
 	Status  string       `json:"status"`
 	Message string       `json:"message"`
-	Result  []sourceCode `json:"result"`
+	Result  []SourceCode `json:"result"`
 }
 
-type sourceCode struct {
+type SourceCode struct {
 	SourceCode           string `json:"SourceCode"`
 	Abi                  string `json:"ABI"`
 	ContractName         string `json:"ContractName"`

@@ -5,11 +5,11 @@ package blockscan
 type getEventsReq struct {
 	Status  string   `json:"status"`  // req status
 	Message string   `json:"message"` // req message
-	Result  []events `json:"result"`  // req result: events
+	Result  []Events `json:"result"`  // req result: events
 }
 
 // Everything in hex. Should convert before further use.
-type events struct {
+type Events struct {
 	Address          string   `json:"address"`          // address
 	Topics           []string `json:"topics"`           // topics of this event
 	Data             string   `json:"data"`             // call data of the event

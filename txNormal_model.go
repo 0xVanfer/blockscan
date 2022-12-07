@@ -3,10 +3,10 @@ package blockscan
 type getNormalTxsReq struct {
 	Status  string      `json:"status"`
 	Message string      `json:"message"`
-	Result  []normalTxs `json:"result"`
+	Result  []NormalTxs `json:"result"`
 }
 
-type normalTxs struct {
+type NormalTxs struct {
 	BlockNumber       string `json:"blockNumber"`       // tx block number
 	TimeStamp         string `json:"timeStamp"`         // tx timestamp
 	Hash              string `json:"hash"`              // tx hash

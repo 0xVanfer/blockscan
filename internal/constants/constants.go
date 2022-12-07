@@ -5,7 +5,7 @@ import "github.com/0xVanfer/chainId"
 const UnreachableBlock int = 99999999
 const UnreachableTimestamp int = 9999999999
 
-type BlockscanInfo struct {
+type blockscanInfo struct {
 	URLHead string `json:"urlHead"`
 	APIKey  string `json:"apiKey"`
 }
@@ -13,7 +13,7 @@ type BlockscanInfo struct {
 // Use my own api keys.
 //
 // Each key has a limit of 5 times/sec. Every one uses default keys will share the limit.
-var BlockscanCnf = map[string]BlockscanInfo{
+var BlockscanCnf = map[string]blockscanInfo{
 	chainId.ArbitrumChainName:     {URLHead: "https://api.arbiscan.io/api?", APIKey: "BCJX4984KDQ8A3U9WWH8P2EQKN76YV8T5T"},
 	chainId.AvalancheChainName:    {URLHead: "https://api.snowtrace.io/api?", APIKey: "K6SR1G96B2SQBRWPI4JP8WXM6BCG62EPQ7"},
 	chainId.BinanceSmartChainName: {URLHead: "https://api.bscscan.com/api?", APIKey: "34WQ9W88CSRHX4ZK59WNKKZYDAP5CEXINP"},

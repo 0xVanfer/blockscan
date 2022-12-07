@@ -9,7 +9,7 @@ import (
 )
 
 // Return up to 10000 erc20 txs of an address.
-func (s *Scanner) GetErc20Transactions(address any, startBlock int, endBlock any) ([]erc20Txs, error) {
+func (s *Scanner) GetErc20Transactions(address any, startBlock int, endBlock any) ([]Erc20Txs, error) {
 	addressStr, err := regularcheck.RegularCheckAddress(address)
 	if err != nil {
 		return nil, err
@@ -32,7 +32,7 @@ func (s *Scanner) GetErc20Transactions(address any, startBlock int, endBlock any
 }
 
 // Return all the erc20 txs of an address.
-func (s *Scanner) GetErc20TransactionsAll(address any) ([]erc20Txs, error) {
+func (s *Scanner) GetErc20TransactionsAll(address any) ([]Erc20Txs, error) {
 	res, err := s.GetErc20Transactions(address, 0, constants.UnreachableBlock)
 	if err != nil {
 		return nil, err

@@ -34,16 +34,16 @@ func (s *Scanner) GetContractAbi(address any) (ContractAbi, error) {
 }
 
 // Return the source code of a contract.
-func (s *Scanner) GetSourceCode(address any) (sourceCode, error) {
+func (s *Scanner) GetSourceCode(address any) (SourceCode, error) {
 	var res sourceCodeReq
 	addressStr, err := regularcheck.RegularCheckAddress(address)
 	if err != nil {
-		return sourceCode{}, err
+		return SourceCode{}, err
 	}
 	url := s.UrlHead + `module=contract&action=getsourcecode&address=` + addressStr + `&apikey=` + s.ApiKey
 	r, err := req.Get(url)
 	if err != nil {
-		return sourceCode{}, err
+		return SourceCode{}, err
 	}
 	err = r.ToJSON(&res)
 	return res.Result[0], err

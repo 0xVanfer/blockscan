@@ -3,10 +3,10 @@ package blockscan
 type getInternalTxsReq struct {
 	Status  string        `json:"status"`
 	Message string        `json:"message"`
-	Result  []internalTxs `json:"result"`
+	Result  []InternalTxs `json:"result"`
 }
 
-type internalTxs struct {
+type InternalTxs struct {
 	BlockNumber     string `json:"blockNumber"`     // tx block number
 	TimeStamp       string `json:"timeStamp"`       // tx timestamp
 	Hash            string `json:"hash"`            // tx hash
