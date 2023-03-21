@@ -32,7 +32,7 @@ func (s *Scanner) GetBalance(address any) (*big.Int, error) {
 
 // Return balances of up to 20 addresses. map[address] = balance.
 func (s *Scanner) GetBalances(addresses []string) (map[string]*big.Int, error) {
-	addressesString := utils.ConnectArray(addresses, ",")
+	addressesString := utils.ConnectArray(",", addresses...)
 	url := s.UrlHead + `module=account&action=balancemulti&address=` + addressesString + `&tag=latest&apikey=` + s.ApiKey
 	r, err := req.Get(url)
 	if err != nil {
