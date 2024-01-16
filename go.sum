@@ -1,5 +1,5 @@
-github.com/0xVanfer/chainId v0.2.0 h1:gcmiCO+YQM87x5Lkrgm3B1Pi7nGGn/UAFPd87+qyWWU=
-github.com/0xVanfer/chainId v0.2.0/go.mod h1:UxVfrjL1lqlWJ2xBlS1tBVjG8h7CwU598V+5dgljdaI=
+github.com/0xVanfer/chainId v0.3.0 h1:l/ORotp9Sfs7V9cJxd3C05bI75+XN2rvSCPVZFa4kdM=
+github.com/0xVanfer/chainId v0.3.0/go.mod h1:UxVfrjL1lqlWJ2xBlS1tBVjG8h7CwU598V+5dgljdaI=
 github.com/0xVanfer/types v0.1.6 h1:8lUHazjJ2Yir7uiTkNqsuhFH26W4Wy7VD1qw5lPXulQ=
 github.com/0xVanfer/types v0.1.6/go.mod h1:8QSGeOQOStzyb8kAZXRVnxJLOJVMqI16lO/a+OBXFOc=
 github.com/0xVanfer/utils v0.3.3 h1:1dMms54p5+c9137VoKIW+hgalZoCZJp2TboEAA/KmCU=
@@ -12,8 +12,8 @@ github.com/decred/dcrd/crypto/blake256 v1.0.0 h1:/8DMNYp9SGi5f0w7uCm6d6M4OU2rGFK
 github.com/decred/dcrd/crypto/blake256 v1.0.0/go.mod h1:sQl2p6Y26YV+ZOcSTP6thNdn47hh8kt6rqSlvmrXFAc=
 github.com/decred/dcrd/dcrec/secp256k1/v4 v4.0.1 h1:YLtO71vCjJRCBcrPMtQ9nqBsqpA1m5sE92cU+pd5Mcc=
 github.com/decred/dcrd/dcrec/secp256k1/v4 v4.0.1/go.mod h1:hyedUtir6IdtD/7lIxGeCxkaw7y45JueMRL4DIyJDKs=
-github.com/ethereum/go-ethereum v1.13.8 h1:1od+thJel3tM52ZUNQwvpYOeRHlbkVFZ5S8fhi0Lgsg=
-github.com/ethereum/go-ethereum v1.13.8/go.mod h1:sc48XYQxCzH3fG9BcrXCOOgQk2JfZzNAmIKnceogzsA=
+github.com/ethereum/go-ethereum v1.13.10 h1:Ppdil79nN+Vc+mXfge0AuUgmKWuVv4eMqzoIVSdqZek=
+github.com/ethereum/go-ethereum v1.13.10/go.mod h1:sc48XYQxCzH3fG9BcrXCOOgQk2JfZzNAmIKnceogzsA=
 github.com/holiman/uint256 v1.2.4 h1:jUc4Nk8fm9jZabQuqr2JzednajVmBpC+oiTiXZJEApU=
 github.com/holiman/uint256 v1.2.4/go.mod h1:EOMSn4q6Nyt9P6efbI3bueV4e1b3dGlUCXeiRV4ng7E=
 github.com/imroc/req v0.3.2 h1:M/JkeU6RPmX+WYvT2vaaOL0K+q8ufL5LxwvJc4xeB4o=

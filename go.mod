@@ -3,10 +3,10 @@ module github.com/0xVanfer/blockscan
 go 1.19
 
 require (
-	github.com/0xVanfer/chainId v0.2.0
+	github.com/0xVanfer/chainId v0.3.0
 	github.com/0xVanfer/types v0.1.6
 	github.com/0xVanfer/utils v0.3.3
-	github.com/ethereum/go-ethereum v1.13.8
+	github.com/ethereum/go-ethereum v1.13.10
 	github.com/imroc/req v0.3.2
 )
 
