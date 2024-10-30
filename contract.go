@@ -2,28 +2,49 @@ package blockscan
 
 import (
 	"encoding/json"
-
-	"github.com/0xVanfer/blockscan/internal/regularcheck"
-	"github.com/imroc/req"
+	"fmt"
 )
 
+type ContractAbi []struct {
+	Name            string           `json:"name"`
+	StateMutability string           `json:"stateMutability"`
+	Type            string           `json:"type"`
+	Anonymous       bool             `json:"anonymous"`
+	Inputs          []AbiInputOutPut `json:"inputs"`
+	Outputs         []AbiInputOutPut `json:"outputs"`
+}
+
+type AbiInputOutPut struct {
+	InternalType string `json:"internalType"`
+	Name         string `json:"name"`
+	Type         string `json:"type"`
+}
+
+type SourceCode struct {
+	SourceCode           string `json:"SourceCode"`
+	Abi                  string `json:"ABI"`
+	ContractName         string `json:"ContractName"`
+	CompilerVersion      string `json:"CompilerVersion"`
+	OptimizationUsed     string `json:"OptimizationUsed"`
+	Runs                 string `json:"Runs"`
+	ConstructorArguments string `json:"ConstructorArguments"`
+	EVMVersion           string `json:"EVMVersion"`
+	Library              string `json:"Library"`
+	LicenseType          string `json:"LicenseType"`
+	Proxy                string `json:"Proxy"`
+	Implementation       string `json:"Implementation"`
+	SwarmSource          string `json:"SwarmSource"`
+}
+
 // Return the contract's abi.
-func (s *Scanner) GetContractAbi(address any) (ContractAbi, error) {
-	addressStr, err := regularcheck.RegularCheckAddress(address)
+func (s *Scanner) GetContractAbi(address string) (ContractAbi, error) {
+	url := fmt.Sprintf("%smodule=contract&action=getabi&address=%s&apikey=%s", s.UrlHead, address, s.ApiKey)
+	var res string
+	err := s.httpGetEtherscan(url, &res)
 	if err != nil {
 		return nil, err
 	}
-	url := s.UrlHead + `module=contract&action=getabi&address=` + addressStr + `&apikey=` + s.ApiKey
-	r, err := req.Get(url)
-	if err != nil {
-		return nil, err
-	}
-	var abiReq resultStringReq
-	err = r.ToJSON(&abiReq)
-	if err != nil {
-		return nil, err
-	}
-	rawMassage := json.RawMessage(abiReq.Result)
+	rawMassage := json.RawMessage(res)
 	abiByte, err := json.Marshal(rawMassage)
 	if err != nil {
 		return nil, err
@@ -34,40 +55,36 @@ func (s *Scanner) GetContractAbi(address any) (ContractAbi, error) {
 }
 
 // Return the source code of a contract.
-func (s *Scanner) GetSourceCode(address any) (SourceCode, error) {
-	var res sourceCodeReq
-	addressStr, err := regularcheck.RegularCheckAddress(address)
+func (s *Scanner) GetSourceCode(address string) ([]SourceCode, error) {
+	url := fmt.Sprintf("%smodule=contract&action=getsourcecode&address=%s&apikey=%s", s.UrlHead, address, s.ApiKey)
+	var res []SourceCode
+	err := s.httpGetEtherscan(url, &res)
 	if err != nil {
-		return SourceCode{}, err
+		return nil, err
 	}
-	url := s.UrlHead + `module=contract&action=getsourcecode&address=` + addressStr + `&apikey=` + s.ApiKey
-	r, err := req.Get(url)
-	if err != nil {
-		return SourceCode{}, err
-	}
-	err = r.ToJSON(&res)
-	return res.Result[0], err
+	return res, err
 }
 
 // Return the contract's name.
-func (s *Scanner) GetContractName(address any) (string, error) {
+func (s *Scanner) GetContractName(address string) (string, error) {
 	sourceCode, err := s.GetSourceCode(address)
 	if err != nil {
 		return "", err
 	}
-	name := sourceCode.ContractName
+	if len(sourceCode) == 0 {
+		return "", nil
+	}
+	name := sourceCode[0].ContractName
 	return name, nil
 }
 
 // Return whether the address is a verified contract.
 //
 // Some contracts may not be verified, will be considered not contract.
-func (s *Scanner) IsVerifiedContract(address any) (bool, error) {
+func (s *Scanner) IsVerifiedContract(address string) (bool, error) {
 	sourceCode, err := s.GetSourceCode(address)
 	if err != nil {
 		return false, err
 	}
-	// if verified, has contract name
-	isVerified := !(sourceCode.ContractName == "")
-	return isVerified, nil
+	return len(sourceCode) > 0 && sourceCode[0].ContractName != "", nil
 }

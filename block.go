@@ -1,22 +1,19 @@
 package blockscan
 
 import (
+	"fmt"
+
 	"github.com/0xVanfer/types"
-	"github.com/imroc/req"
 )
 
 // Return the block number.
-func (s *Scanner) GetBlockNumberByTimestamp(timestamp string) (int64, error) {
-	url := s.UrlHead + `module=block&action=getblocknobytime&timestamp=` + timestamp + `&closest=before&apikey=` + s.ApiKey
-	r, err := req.Get(url)
+func (s *Scanner) GetBlockNumberByTimestamp(timestamp int64) (int64, error) {
+	url := fmt.Sprintf("%smodule=block&action=getblocknobytime&timestamp=%d&closest=before&apikey=%s", s.UrlHead, timestamp, s.ApiKey)
+	var res string
+	err := s.httpGetEtherscan(url, &res)
 	if err != nil {
 		return 0, err
 	}
-	var res resultStringReq
-	err = r.ToJSON(&res)
-	if err != nil {
-		return 0, err
-	}
-	blockNumber := types.ToInt64(res.Result)
+	blockNumber := types.ToInt64(res)
 	return blockNumber, nil
 }

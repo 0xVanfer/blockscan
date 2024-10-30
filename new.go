@@ -1,61 +1,58 @@
 // Request info from blockscan.
-//
-// Example:
-//
-//	// To get the balance of address "0xb31f66aa3c1e785363f0875a1b74e27b85fd66c7"
-//	scanner, err:=blockscan.New("avalanche","")
-//	if err != nil { return err }
-//	res, err := scanner.GetBalance("0xb31f66aa3c1e785363f0875a1b74e27b85fd66c7")
-//	if err != nil { return err }
-//	fmt.Println(res)
 package blockscan
 
 import (
 	"errors"
-	"fmt"
+	"net/http"
+	"os"
+	"time"
 
 	"github.com/0xVanfer/blockscan/internal/constants"
+	"github.com/imroc/req/v3"
 )
 
 type Scanner struct {
-	UrlHead string // Url head based on network.
+	UrlHead string // Url based on network.
 	ApiKey  string // User's api key, length should be 34.
+
+	reqClient *req.Client
+}
+
+var reqDumpOpts = &req.DumpOptions{
+	Output:         os.Stdout,
+	RequestHeader:  false,
+	ResponseBody:   false,
+	RequestBody:    false,
+	ResponseHeader: false,
+	Async:          false,
 }
 
 // Create a new scanner.
 //
-// "network" should be the full name of the chain,
-// such as "ethereum", "avalanche", etc.
-//
-// "apiKey" is the key for blockscan requests.
-// When the key is "", default key will be used.
-// Otherwise, the key length should be 34.
-//
 // To get an apikey on ethereum, visit
 // https://docs.etherscan.io/getting-started/viewing-api-usage-statistics
-func New(network string, apiKey string) (*Scanner, error) {
-	var urlHead string
-	var defaultKey string
-	for n, info := range constants.BlockscanCnf {
-		if n == network {
-			urlHead = info.URLHead
-			defaultKey = info.APIKey
-			break
-		}
-	}
-	if urlHead == "" {
+func New(chainID int64, apiKey string) (*Scanner, error) {
+	info, exist := constants.BlockscanCnf[chainID]
+	if !exist {
 		return nil, errors.New("network not supported")
 	}
-	if apiKey == "" {
-		apiKey = defaultKey
-		fmt.Println("You do not have a blockscan api key. Unecpected errors may occur when running.")
-	}
 	if len(apiKey) != 34 {
-		err := errors.New("api key length should be 34")
-		return nil, err
+		apiKey = info.APIKey
 	}
+
+	reqClient := req.C().
+		SetTimeout(time.Minute).
+		SetCommonDumpOptions(reqDumpOpts).
+		SetCommonRetryCount(3).
+		SetCommonRetryFixedInterval(time.Second * 5).
+		SetCommonRetryCondition(func(resp *req.Response, err error) bool {
+			return err != nil || resp.StatusCode > http.StatusOK
+		}).
+		EnableDumpAll()
+
 	return &Scanner{
-		UrlHead: urlHead,
-		ApiKey:  apiKey,
+		UrlHead:   info.URLHead,
+		ApiKey:    apiKey,
+		reqClient: reqClient,
 	}, nil
 }
