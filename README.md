@@ -1,5 +1,7 @@
 # Blockscan
 
+# DEPRECATED: switch to new repo using v2 api
+
 ---
 
 #### Chains supported
